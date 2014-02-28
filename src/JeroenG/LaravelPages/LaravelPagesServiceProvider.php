@@ -28,7 +28,11 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['laravelpages'] = $this->app->share( function ($app)
+            {
+                return new LaravelPages;
+            }
+        );
 	}
 
 	/**
@@ -38,7 +42,7 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('laravelpages');
 	}
 
 }
