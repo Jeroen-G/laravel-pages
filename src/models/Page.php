@@ -1,5 +1,13 @@
 <?php namespace JeroenG\LaravelPages;
 
+/**
+ * This is the page model.
+ *
+ * @package LaravelPages
+ * @subpackage Models
+ * @author 	JeroenG
+ * 
+ **/
 class Page extends \Eloquent {
 
 	/**
