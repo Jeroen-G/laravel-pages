@@ -98,7 +98,7 @@ class LaravelPages {
 	 * @param int $page_id The id of the existing page.
 	 * @param string $page_title The (changed) title of the page.
 	 * @param text $page_content The (changed) content of the page.
-	 * @param string $slug The (changed) slug of the page.
+	 * @param string $page_slug The (changed) slug of the page.
 	 * @return void The page is saved.
 	 **/
 	public function updatePage($page_id, $page_title, $page_content, $page_slug)
