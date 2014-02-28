@@ -8,7 +8,7 @@
             "email": "jeroeng.jeroeng@gmail.com"
         }
     ],
-    "keywords": ["Laravel 4", "Photo", "Gallery"],
+    "keywords": ["Laravel", "Pages"],
     "require": {
         "php": ">=5.3.0",
         "illuminate/support": "4.1.*",
