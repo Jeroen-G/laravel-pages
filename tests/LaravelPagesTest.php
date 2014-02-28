@@ -74,10 +74,10 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
 		parent::setUp();
 
 		$artisan = $this->app->make('artisan');
-		$artisan->call('migrate', [
+		$artisan->call('migrate', array(
             '--database' => 'testbench',
             '--path'     => 'migrations',
-        ]);
+        ));
 
         \DB::table('pages')->insert(array(
             'page_title'    =>	'Hello World',
