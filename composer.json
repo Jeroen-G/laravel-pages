@@ -11,11 +11,13 @@
     "keywords": ["Laravel 4", "Photo", "Gallery"],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "4.1.*"
+        "illuminate/support": "4.1.*",
+        "cocur/slugify": "dev-master"
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
+            "src/migrations",
+            "src/models",
         ],
         "psr-0": {
             "JeroenG\\LaravelPages\\": "src/"
