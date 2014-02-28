@@ -1,27 +1,12 @@
 <?php namespace JeroenG\LaravelPages;
 
+use JeroenG\LaravelPages\Page;
+
 class LaravelPages {
-
-	/**
-	 * The page model
-	 *
-	 * @var \JeroenG\LaravelPages\Page
-	 **/
-	protected $page;
-
-	/**
-	 * Instantiate the class
-	 *
-	 * @return void
-	 **/
-	public function __construct()
-	{
-		$this->page = \App::make('JeroenG\LaravelPages\Page');
-	}
 
 	public function pageExists($slug)
 	{
-		$count = $this->page->where('page_slug', '=', $slug)->count();
+		$count = Page::where('page_slug', '=', $slug)->count();
 
 		if ($count == 0)
 		{
@@ -35,13 +20,66 @@ class LaravelPages {
 
 	public function getPage($slug)
 	{
-		$query = $this->page->where('page_slug', '=', $slug)->get();
+		$query = Page::where('page_slug', '=', $slug)->first();
 		return $query->toArray();
+	}
+
+	public function getPageId($slug)
+	{
+		$query = Page::where('page_slug', '=', $slug)->withTrashed()->select('page_id')->first();
+		return $query->page_id;
 	}
 
 	public function createSlug($page_title)
 	{
 		$slugify = new \Cocur\Slugify\Slugify();
 		return $slugify->slugify($page_title);
+	}
+
+	public function addPage($page_title, $page_content, $custom_slug = null)
+	{
+		$newPage = new Page;
+		$newPage->page_title = $page_title;
+		$newPage->page_content = $page_content;
+		if(!is_null($custom_slug))
+		{
+			$newPage->page_slug = $custom_slug;
+		}
+		else
+		{
+			$newPage->page_slug = $this->createSlug($page_title);
+		}
+
+		return $newPage->save();
+	}
+
+	public function updatePage($page_id, $page_title, $page_content, $page_slug)
+	{
+		$page = Page::find($page_id);
+		$page->page_title = $page_title;
+		$page->page_content = $page_content;
+		$page->page_slug = $page_slug;
+		$page->touch();
+		return $page->save();
+	}
+
+	public function deletePage($page_id, $forceDelete = false)
+	{
+		$page = Page::find($page_id);
+
+		if($forceDelete)
+		{
+			return $page->forceDelete($page_id);
+		}
+		else
+		{
+			return $page->delete($page_id);
+		}
+	}
+
+	public function restorePage($page_id)
+	{
+		$page = Page::withTrashed()->find($page_id);
+		return $page->restore($page_id);
 	}
 }
