@@ -123,7 +123,7 @@ class LaravelPages {
 	 **/
 	public function deletePage($page_id, $forceDelete = false)
 	{
-		$page = Page::find($page_id);
+		$page = Page::withTrashed()->find($page_id);
 
 		if($forceDelete)
 		{
