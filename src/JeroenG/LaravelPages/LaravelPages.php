@@ -30,10 +30,10 @@ class LaravelPages {
 		return $query->page_id;
 	}
 
-	public function createSlug($page_title)
+	public function createSlug($slugify_this)
 	{
 		$slugify = new \Cocur\Slugify\Slugify();
-		return $slugify->slugify($page_title);
+		return $slugify->slugify($slugify_this);
 	}
 
 	public function addPage($page_title, $page_content, $custom_slug = null)
@@ -43,7 +43,7 @@ class LaravelPages {
 		$newPage->page_content = $page_content;
 		if(!is_null($custom_slug))
 		{
-			$newPage->page_slug = $custom_slug;
+			$newPage->page_slug = $this->createSlug($custom_slug);
 		}
 		else
 		{
@@ -58,7 +58,7 @@ class LaravelPages {
 		$page = Page::find($page_id);
 		$page->page_title = $page_title;
 		$page->page_content = $page_content;
-		$page->page_slug = $page_slug;
+		$page->page_slug = $this->createSlug($page_slug);
 		$page->touch();
 		return $page->save();
 	}
