@@ -19,6 +19,11 @@ The next step is to add the service provider in `app/config/app.php`:
 
     'JeroenG\LaravelPages\LaravelPagesServiceProvider',
 
+And in the same file, add the alias:
+
+	'LPages'          => 'JeroenG\LaravelPages\Facades\LaravelPages',
+
+
 The last thing to do is to migrate to create the pages table:
 
 	php artisan migrate --package="jeroen-g/laravel-pages"
