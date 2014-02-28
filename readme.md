@@ -3,6 +3,10 @@ Laravel Pages
 
 Simple pages package for Laravel 4.1
 
+[![Build Status](https://travis-ci.org/Jeroen-G/laravel-pages.png?branch=master)](https://travis-ci.org/Jeroen-G/laravel-pages)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/badges/quality-score.png?s=a0e8e2ce3e6f07bb1171e5257b3224a60427bb3c)](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/)
+[![Latest Stable Version](https://poser.pugx.org/jeroen-g/laravel-pages/v/stable.png)](https://packagist.org/packages/jeroen-g/laravel-pages)
+
 ## Installation
 First you should install this package through Composer and edit your project's `composer.json`:
 
