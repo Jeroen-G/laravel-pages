@@ -1,0 +1,25 @@
+{
+    "name": "jeroen-g/laravel-pages",
+    "description": "Simple pages package for Laravel 4.1",
+    "license": "EUPL-1.1",
+    "authors": [
+        {
+            "name": "Jeroen G",
+            "email": "jeroeng.jeroeng@gmail.com"
+        }
+    ],
+    "keywords": ["Laravel 4", "Photo", "Gallery"],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "JeroenG\\LaravelPages\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
