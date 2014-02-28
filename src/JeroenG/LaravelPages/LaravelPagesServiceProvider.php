@@ -2,6 +2,16 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * This is the service provider for Laravel.
+ *
+ * Place the line below in the providers array inside app/config/app.php
+ * <code>'JeroenG\LaravelPages\LaravelPagesServiceProvider',</code>
+ *
+ * @package LaravelPages
+ * @author 	JeroenG
+ * 
+ **/
 class LaravelPagesServiceProvider extends ServiceProvider {
 
 	/**
