@@ -19,11 +19,6 @@ class LaravelPages {
 		$this->page = \App::make('JeroenG\LaravelPages\Page');
 	}
 
-	public function test()
-	{
-		return "hallo wereld";
-	}
-
 	public function pageExists($slug)
 	{
 		$count = $this->page->where('page_slug', '=', $slug)->count();
