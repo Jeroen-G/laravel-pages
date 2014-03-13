@@ -80,13 +80,13 @@ class LaravelPages {
 		$newPage = new Page;
 		$newPage->page_title = $page_title;
 		$newPage->page_content = $page_content;
-		if(!is_null($custom_slug))
+		if(is_null($custom_slug) or empty($custom_slug))
 		{
-			$newPage->page_slug = $this->createSlug($custom_slug);
+			$newPage->page_slug = $this->createSlug($page_title);
 		}
 		else
 		{
-			$newPage->page_slug = $this->createSlug($page_title);
+			$newPage->page_slug = $this->createSlug($custom_slug);
 		}
 
 		return $newPage->save();
