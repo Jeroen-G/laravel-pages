@@ -1,7 +1,7 @@
 Laravel Pages
 =====================
 
-Simple pages package for Laravel 4.1
+Simple pages package for Laravel 4.2
 
 [![Build Status](https://travis-ci.org/Jeroen-G/laravel-pages.png?branch=master)](https://travis-ci.org/Jeroen-G/laravel-pages)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/badges/quality-score.png?s=a0e8e2ce3e6f07bb1171e5257b3224a60427bb3c)](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/)
@@ -11,7 +11,7 @@ Simple pages package for Laravel 4.1
 First you should install this package through Composer and edit your project's `composer.json`:
 
     "require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "4.2.*",
 		"jeroen-g/laravel-pages": "v1.*"
 	}
 
