@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
  *
  * Place the line below in the providers array inside app/config/app.php
  * <code>'JeroenG\LaravelPages\LaravelPagesServiceProvider',</code>
+ * And this line into the alias array in the same file
+ * <code>'LPages' => 'JeroenG\LaravelPages\Facades\LaravelPages',</code>
  *
  * @package LaravelPages
  * @author 	JeroenG
@@ -28,7 +30,9 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('jeroen-g/laravel-pages');
+		$this->publishes([
+            __DIR__.'/../../migrations' => $this->app->databasePath().'/migrations',
+        ]);
 	}
 
 	/**
