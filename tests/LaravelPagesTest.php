@@ -1,5 +1,6 @@
-<?php namespace JeroenG\LaravelPages;
+<?php
 
+use Illuminate\Foundation\Testing\TestCase;
 use JeroenG\LaravelPages\LaravelPages;
 
 /**
@@ -10,83 +11,62 @@ use JeroenG\LaravelPages\LaravelPages;
  * @author 	JeroenG
  * 
  **/
-class LaravelPagesTest extends \Orchestra\Testbench\TestCase
+class LaravelPagesTest extends TestCase
 {
 
 	/**
-     * Get package providers.
-     * 
-     * At a minimum this is the package being tested, but also
-     * would include packages upon which our package depends, e.g. Cartalyst/Sentry
-     * In a normal app environment these would be added to the 'providers' array in
-     * the config/app.php file.
+     * Boots the application.
      *
-     * @return array
+     * @return \Illuminate\Foundation\Application
      */
-	protected function getPackageProviders()
-	{
-	    return array('JeroenG\LaravelPages\LaravelPagesServiceProvider');
-	}
-
-    /**
-     * Get package aliases.
-     * 
-     * In a normal app environment these would be added to
-     * the 'aliases' array in the config/app.php file.  If your package exposes an
-     * aliased facade, you should add the alias here, along with aliases for
-     * facades upon which your package depends, e.g. Cartalyst/Sentry
-     *
-     * @return array
-     */
-	protected function getPackageAliases()
-	{
-	    return array(
-	        'LPages' => 'JeroenG\LaravelPages\Facades\LaravelPages',
-	    );
-	}
-
-	/**
-     * Define environment setup.
-     *
-     * @param  Illuminate\Foundation\Application    $app
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
+    public function createApplication()
     {
-        // reset base path to point to our package's src directory
-        $app['path.base'] = __DIR__ . '/../src';
+        $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
 
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', array(
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ));
+        $app->register('JeroenG\LaravelPages\LaravelPagesServiceProvider');
+
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        return $app;      
     }
 
-	/**
-     * Setup the test environment.
+    /**
+     * Setup DB before each test.
+     *
+     * @return void  
+     */
+    public function setUp()
+    { 
+        parent::setUp();
+
+        $this->app['config']->set('database.default','sqlite'); 
+        $this->app['config']->set('database.connections.sqlite.database', ':memory:');
+
+        $this->migrate();
+
+        $this->pages = new LaravelPages();
+    }
+
+    /**
+     * run package database migrations
      *
      * @return void
      */
-	public function setUp()
-	{
-		parent::setUp();
+    public function migrate()
+    { 
+        $classFinder = $this->app->make('Illuminate\Filesystem\ClassFinder');
+        
+        $path = realpath(__DIR__ . "/../src/migrations");
+        $files = glob($path.'/*');
 
-		$artisan = $this->app->make('artisan');
-		$artisan->call('migrate', array(
-            '--database' => 'testbench',
-            '--path'     => 'migrations',
-        ));
+        foreach($files as $file)
+        {
+            require_once $file;
+            $migrationClass = $classFinder->findClass($file);
 
-        \DB::table('pages')->insert(array(
-            'page_title'    =>	'Hello World',
-            'page_content'  =>	'This is for testing',
-            'page_slug'		=>	'hello-world',
-            'created_at'	=>	'2014-01-01 00:00:00',
-            'updated_at'	=>	'2014-01-01 00:00:00',
-        ));
-	}
+            (new $migrationClass)->up();
+        }
+    }
 
 	/**
      * Test adding a new page.
@@ -97,7 +77,7 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
 	{
 		$page_title = "Hello Europe";
 		$page_content = "This is the content for another page";
-		$output = \LPages::addPage($page_title, $page_content);
+		$output = $this->pages->addPage($page_title, $page_content);
 		$this->assertTrue($output);
 	}
 
@@ -108,7 +88,8 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testPageExists()
 	{
-		$output = \LPages::PageExists('hello-world');
+        $this->dummy();
+		$output = $this->pages->PageExists('hello-world');
 		$this->assertTrue($output);
 	}
 
@@ -119,7 +100,7 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testPageNotExists()
 	{
-		$output = \LPages::PageExists('hello-universe');
+		$output = $this->pages->PageExists('hello-universe');
 		$this->assertFalse($output);
 	}
 
@@ -130,9 +111,10 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testGetPage()
 	{
-		$output = \LPages::getPage('hello-world');
+        $this->dummy();
+		$output = $this->pages->getPage('hello-world');
 		$this->assertEquals(7, count($output));
-		$this->assertContains('Hello World', $output);
+		$this->assertContains('Dummy Content', $output);
 	}
 
 	/**
@@ -142,7 +124,8 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testGetPageId()
 	{
-		$output = \LPages::getPageId('hello-world');
+        $this->dummy();
+		$output = $this->pages->getPageId('hello-world');
 		$this->assertEquals(1, $output);
 	}
 
@@ -153,9 +136,10 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testGetDeletedPageId()
 	{
-		\LPages::deletePage(1);
-		$output = \LPages::getPageId('hello-world');
-		\LPages::restorePage(1);
+        $this->dummy();
+		$this->pages->deletePage(1);
+		$output = $this->pages->getPageId('hello-world');
+		$this->pages->restorePage(1);
 		$this->assertEquals(1, $output);
 	}
 
@@ -166,8 +150,14 @@ class LaravelPagesTest extends \Orchestra\Testbench\TestCase
      */
 	public function testGetForceDeletedPageId()
 	{
+        $this->dummy();
 		$this->setExpectedException('ErrorException');
-		\LPages::deletePage(1, true);
-		$output = \LPages::getPageId('hello-world');
+		$this->pages->deletePage(1, true);
+		$output = $this->pages->getPageId(1);
 	}
+
+    public function dummy()
+    {
+        $this->pages->addPage('Test', 'Dummy Content', 'hello-world');
+    }
 }
