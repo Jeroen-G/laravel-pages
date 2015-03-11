@@ -113,7 +113,7 @@ class LaravelPagesTest extends TestCase
     {
         $this->dummy();
         $output = $this->pages->getPage('hello-world');
-        $this->assertContains('Dummy Content', $output);
+        $this->assertContains('Dummy Content', $output->page_content);
     }
 
     /**
@@ -125,7 +125,33 @@ class LaravelPagesTest extends TestCase
     {
         $this->dummy();
         $output = $this->pages->getPageById(1);
-        $this->assertContains('Dummy Content', $output);
+        $this->assertContains('Dummy Content', $output->page_content);
+    }
+
+    /**
+     * Test getting the page data based on the slug and including trashed pages.
+     *
+     * @test
+     */
+    public function testGetTrashedPage()
+    {
+        $this->dummy();
+        $this->pages->deletePage(1);
+        $output = $this->pages->getPage('hello-world', true);
+        $this->assertContains('Test', $output->page_title);
+    }
+
+    /**
+     * Test getting the page data based on the ID and including trashed pages.
+     *
+     * @test
+     */
+    public function testGetTrashedPageById()
+    {
+        $this->dummy();
+        $this->pages->deletePage(1);
+        $output = $this->pages->getPageById(1, true);
+        $this->assertContains('Test', $output->page_title);
     }
 
 	/**
@@ -141,18 +167,36 @@ class LaravelPagesTest extends TestCase
 	}
 
 	/**
-     * Test getting the id of a soft-deleted page. Also tests restoring.
+     * Test getting the id of a soft-deleted page.
      *
      * @test
      */
-	public function testGetDeletedPageId()
-	{
+    public function testGetDeletedPageId()
+    {
         $this->dummy();
-		$this->pages->deletePage(1);
-		$output = $this->pages->getPageId('hello-world');
-		$this->pages->restorePage(1);
-		$this->assertEquals(1, $output);
-	}
+        $this->pages->deletePage(1);
+        $output = $this->pages->getPageId('hello-world');
+        $this->assertEquals(1, $output);
+    }
+
+    /**
+     * Test restoring a page.
+     *
+     * @test
+     */
+    public function testRestorePage()
+    {
+        // Deleting page
+        $this->dummy();
+        $this->pages->deletePage(1);
+        $output = $this->pages->getPageById(1);
+        $this->assertNull($output);
+
+        // Restoring page
+        $this->pages->restorePage(1);
+        $output2 = $this->pages->getPageById(1);
+        $this->assertEquals(1, $output2->page_id);
+    }
 
 	/**
      * Test getting the id of a force-deleted page, because it shouldn't work.
@@ -185,7 +229,7 @@ class LaravelPagesTest extends TestCase
         $this->pages->updatePage($id, $title, $content, $slug);
 
         $output = $this->pages->getPage('hello-world');
-        $this->assertContains('New Dummy Content', $output);
+        $this->assertContains('New Dummy Content', $output->page_content);
     }
 
     public function dummy()
