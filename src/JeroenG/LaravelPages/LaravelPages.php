@@ -32,15 +32,25 @@ class LaravelPages {
 	}
 
 	/**
-	 * Gets all the data of the page from the database.
+	 * Gets all the data of the page from the database, based on the slug.
 	 *
 	 * @param string $slug The slug to search for in the database.
 	 * @return array The data such as title, content and publishing date in an array.
 	 **/
 	public function getPage($slug)
 	{
-		$query = Page::where('page_slug', '=', $slug)->first();
-		return $query->toArray();
+		return Page::where('page_slug', '=', $slug)->first()->toArray();
+	}
+
+	/**
+	 * Gets all the data of the page from the database, based on the ID.
+	 *
+	 * @param string $id The id to search for in the database.
+	 * @return array The data such as title, content and publishing date in an array.
+	 **/
+	public function getPageById($id)
+	{
+		return Page::find($id)->toArray();
 	}
 
 	/**
