@@ -35,22 +35,32 @@ class LaravelPages {
 	 * Gets all the data of the page from the database, based on the slug.
 	 *
 	 * @param string $slug The slug to search for in the database.
+	 * @param boolean $trashed Include trashed (soft deleted) pages?
 	 * @return array The data such as title, content and publishing date in an array.
 	 **/
-	public function getPage($slug)
+	public function getPage($slug, $trashed = false)
 	{
-		return Page::where('page_slug', '=', $slug)->first()->toArray();
+		if($trashed)
+		{
+			return Page::withTrashed()->where('page_slug', '=', $slug)->first();
+		}
+		return Page::where('page_slug', '=', $slug)->first();
 	}
 
 	/**
 	 * Gets all the data of the page from the database, based on the ID.
 	 *
 	 * @param string $id The id to search for in the database.
+	 * @param boolean $trashed Include trashed (soft deleted) pages?
 	 * @return array The data such as title, content and publishing date in an array.
 	 **/
-	public function getPageById($id)
+	public function getPageById($id, $trashed = false)
 	{
-		return Page::find($id)->toArray();
+		if($trashed)
+		{
+			return Page::withTrashed()->find($id);
+		}
+		return Page::find($id);
 	}
 
 	/**
