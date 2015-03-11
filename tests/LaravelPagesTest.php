@@ -105,17 +105,28 @@ class LaravelPagesTest extends TestCase
 	}
 
 	/**
-     * Test getting the page data.
+     * Test getting the page data based on the slug.
      *
      * @test
      */
-	public function testGetPage()
-	{
+    public function testGetPage()
+    {
         $this->dummy();
-		$output = $this->pages->getPage('hello-world');
-		$this->assertEquals(7, count($output));
-		$this->assertContains('Dummy Content', $output);
-	}
+        $output = $this->pages->getPage('hello-world');
+        $this->assertContains('Dummy Content', $output);
+    }
+
+    /**
+     * Test getting the page data based on the ID.
+     *
+     * @test
+     */
+    public function testGetPageById()
+    {
+        $this->dummy();
+        $output = $this->pages->getPageById(1);
+        $this->assertContains('Dummy Content', $output);
+    }
 
 	/**
      * Test getting the page id.
@@ -155,6 +166,27 @@ class LaravelPagesTest extends TestCase
 		$this->pages->deletePage(1, true);
 		$output = $this->pages->getPageId(1);
 	}
+
+    /**
+     * Test updating the page.
+     *
+     * @test
+     */
+    public function testUpdatePage()
+    {
+        $this->dummy();
+        $page = $this->pages->getPageById(1);
+
+        $id = 1;
+        $title = "Test";
+        $content = "New Dummy Content";
+        $slug = "hello-world";
+
+        $this->pages->updatePage($id, $title, $content, $slug);
+
+        $output = $this->pages->getPage('hello-world');
+        $this->assertContains('New Dummy Content', $output);
+    }
 
     public function dummy()
     {
