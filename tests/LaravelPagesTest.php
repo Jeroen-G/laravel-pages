@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Testing\TestCase;
 use JeroenG\LaravelPages\LaravelPages;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * This is for testing the package
@@ -14,21 +16,11 @@ use JeroenG\LaravelPages\LaravelPages;
 class LaravelPagesTest extends TestCase
 {
 
-	/**
-     * Boots the application.
-     *
-     * @return \Illuminate\Foundation\Application
+    /**
+     * The LaravelPages instance
+     * @var object
      */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
-
-        $app->register('JeroenG\LaravelPages\LaravelPagesServiceProvider');
-
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-        return $app;      
-    }
+    protected $pages;
 
     /**
      * Setup DB before each test.
@@ -56,7 +48,7 @@ class LaravelPagesTest extends TestCase
     { 
         $classFinder = $this->app->make('Illuminate\Filesystem\ClassFinder');
         
-        $path = realpath(__DIR__ . "/../src/migrations");
+        $path = realpath(__DIR__ . "/../migrations");
         $files = glob($path.'/*');
 
         foreach($files as $file)
