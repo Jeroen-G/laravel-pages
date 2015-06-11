@@ -1,6 +1,0 @@
-suites:
-    pages:
-        namespace: JeroenG\LaravelPages
-        psr4_prefix: JeroenG\LaravelPages
-        src_path: packages/JeroenG/LaravelPages/src
-        spec_path: packages/JeroenG/LaravelPages/spec
