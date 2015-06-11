@@ -15,9 +15,7 @@
         "cocur/slugify": "dev-master"
     },
     "require-dev": {
-        "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "~4.0",
-        "scrutinizer/ocular": "~1.1"
+        "phpunit/phpunit": "~4.0"
     },
     "autoload": {
         "classmap": [
