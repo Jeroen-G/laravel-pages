@@ -3,7 +3,6 @@ Laravel Pages
 
 Simple pages package for Laravel 5. For laravel 4, use version 1 of this package.
 
-[![Build Status](https://travis-ci.org/Jeroen-G/laravel-pages.png?branch=master)](https://travis-ci.org/Jeroen-G/laravel-pages)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/badges/quality-score.png?s=a0e8e2ce3e6f07bb1171e5257b3224a60427bb3c)](https://scrutinizer-ci.com/g/Jeroen-G/laravel-pages/)
 [![Latest Stable Version](https://img.shields.io/github/release/jeroen-g/activity-logger.svg?style=flat)](https://github.com/jeroen-g/laravel-pages/releases)
 [![License](https://img.shields.io/badge/License-EUPL--1.1-blue.svg?style=flat)](license.md)
@@ -22,11 +21,11 @@ $ composer require jeroen-g/laravel-pages --update-no-dev
 
 The next step is to add the service provider in `app/config/app.php`:
 
-    'JeroenG\LaravelPages\LaravelPagesServiceProvider',
+    JeroenG\LaravelPages\LaravelPagesServiceProvider::class,
 
 And in the same file, add the alias:
 
-	'LPages'          => 'JeroenG\LaravelPages\Facades\LaravelPages',
+	'LPages'   =>  JeroenG\LaravelPages\Facades\LaravelPages::class,
 
 
 Then publish the package's migration files.
