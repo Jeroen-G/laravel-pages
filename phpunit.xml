@@ -16,10 +16,10 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>src/JeroenG/</directory>
+            <directory>src/</directory>
             <exclude>
-                <directory>src/JeroenG/LaravelPages/Facades/</directory>
-                <file>src/JeroenG/LaravelPages/LaravelPagesServiceProvider.php</file>
+                <directory>src/Facades/</directory>
+                <file>src/LaravelPagesServiceProvider.php</file>
             </exclude>
         </whitelist>
     </filter>
