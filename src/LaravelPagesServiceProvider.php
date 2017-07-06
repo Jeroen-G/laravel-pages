@@ -42,11 +42,9 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['laravelpages'] = $this->app->singleton( function ($app)
-            {
-                return new LaravelPages;
-            }
-        );
+		$this->app->singleton('laravelpages', function ($app) {
+            return new LaravelPages;
+    	});
 	}
 
 	/**
