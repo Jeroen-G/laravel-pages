@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider;
  *
  * @package LaravelPages
  * @author 	JeroenG
- * 
+ *
  **/
 class LaravelPagesServiceProvider extends ServiceProvider {
 
@@ -42,7 +42,7 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['laravelpages'] = $this->app->share( function ($app)
+		$this->app['laravelpages'] = $this->app->singleton( function ($app)
             {
                 return new LaravelPages;
             }
