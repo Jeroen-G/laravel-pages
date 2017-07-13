@@ -7,8 +7,8 @@ use JeroenG\LaravelPages\LaravelPages;
  *
  * @package LaravelPages
  * @subpackage Tests
- * @author 	JeroenG
- * 
+ * @author  JeroenG
+ *
  **/
 class LaravelPagesTest extends TestCase
 {
@@ -22,13 +22,13 @@ class LaravelPagesTest extends TestCase
     /**
      * Setup DB before each test.
      *
-     * @return void  
+     * @return void
      */
     public function setUp()
-    { 
+    {
         parent::setUp();
 
-        $this->app['config']->set('database.default','sqlite'); 
+        $this->app['config']->set('database.default', 'sqlite');
         $this->app['config']->set('database.connections.sqlite.database', ':memory:');
 
         $this->migrate();
@@ -42,14 +42,13 @@ class LaravelPagesTest extends TestCase
      * @return void
      */
     public function migrate()
-    { 
+    {
         $classFinder = $this->app->make('Illuminate\Filesystem\ClassFinder');
         
         $path = realpath(__DIR__ . "/../migrations");
         $files = glob($path.'/*');
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             require_once $file;
             $migrationClass = $classFinder->findClass($file);
 
@@ -57,43 +56,43 @@ class LaravelPagesTest extends TestCase
         }
     }
 
-	/**
+    /**
      * Test adding a new page.
      *
      * @test
      */
-	public function testAddPage()
-	{
-		$page_title = "Hello Europe";
-		$page_content = "This is the content for another page";
-		$output = $this->pages->addPage($page_title, $page_content);
-		$this->assertTrue($output);
-	}
+    public function testAddPage()
+    {
+        $page_title = "Hello Europe";
+        $page_content = "This is the content for another page";
+        $output = $this->pages->addPage($page_title, $page_content);
+        $this->assertTrue($output);
+    }
 
-	/**
+    /**
      * Test if the page does exists.
      *
      * @test
      */
-	public function testPageExists()
-	{
+    public function testPageExists()
+    {
         $this->dummy();
-		$output = $this->pages->PageExists('hello-world');
-		$this->assertTrue($output);
-	}
+        $output = $this->pages->PageExists('hello-world');
+        $this->assertTrue($output);
+    }
 
-	/**
+    /**
      * Test if the page does NOT exists.
      *
      * @test
      */
-	public function testPageNotExists()
-	{
-		$output = $this->pages->PageExists('hello-universe');
-		$this->assertFalse($output);
-	}
+    public function testPageNotExists()
+    {
+        $output = $this->pages->PageExists('hello-universe');
+        $this->assertFalse($output);
+    }
 
-	/**
+    /**
      * Test getting the page data based on the slug.
      *
      * @test
@@ -143,19 +142,19 @@ class LaravelPagesTest extends TestCase
         $this->assertContains('Test', $output->page_title);
     }
 
-	/**
+    /**
      * Test getting the page id.
      *
      * @test
      */
-	public function testGetPageId()
-	{
+    public function testGetPageId()
+    {
         $this->dummy();
-		$output = $this->pages->getPageId('hello-world');
-		$this->assertEquals(1, $output);
-	}
+        $output = $this->pages->getPageId('hello-world');
+        $this->assertEquals(1, $output);
+    }
 
-	/**
+    /**
      * Test getting the id of a soft-deleted page.
      *
      * @test
@@ -187,18 +186,18 @@ class LaravelPagesTest extends TestCase
         $this->assertEquals(1, $output2->page_id);
     }
 
-	/**
+    /**
      * Test getting the id of a force-deleted page, because it shouldn't work.
      *
      * @test
      */
-	public function testGetForceDeletedPageId()
-	{
+    public function testGetForceDeletedPageId()
+    {
         $this->dummy();
-		$this->setExpectedException('ErrorException');
-		$this->pages->deletePage(1, true);
-		$output = $this->pages->getPageId(1);
-	}
+        $this->setExpectedException('ErrorException');
+        $this->pages->deletePage(1, true);
+        $output = $this->pages->getPageId(1);
+    }
 
     /**
      * Test updating the page.

@@ -12,7 +12,7 @@
     "keywords": ["Laravel", "Pages"],
     "require": {
         "illuminate/support": "~5",
-        "cocur/slugify": "dev-master"
+        "cocur/slugify": "^v2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
