@@ -1,4 +1,6 @@
-<?php namespace JeroenG\LaravelPages;
+<?php
+
+namespace JeroenG\LaravelPages;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -6,33 +8,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * This is the page model.
  *
- * @package LaravelPages
- * @subpackage Models
  * @author 	JeroenG
- * 
  **/
-class Page extends Model {
+class Page extends Model
+{
+    use SoftDeletes;
 
-	use SoftDeletes;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'pages';
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'pages';
+    /**
+     * The primary key.
+     *
+     * @var string
+     **/
+    protected $primaryKey = 'page_id';
 
-	/**
-	 * The primary key
-	 *
-	 * @var string
-	 **/
-	protected $primaryKey = 'page_id';
-
-	/**
-	 * This is for the SoftDeleting functionality.
-	 *
-	 * @var boolean
-	 */
+    /**
+     * This is for the SoftDeleting functionality.
+     *
+     * @var bool
+     */
     protected $dates = ['deleted_at'];
 }

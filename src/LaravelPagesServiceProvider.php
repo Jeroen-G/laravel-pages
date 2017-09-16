@@ -1,4 +1,6 @@
-<?php namespace JeroenG\LaravelPages;
+<?php
+
+namespace JeroenG\LaravelPages;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -10,49 +12,46 @@ use Illuminate\Support\ServiceProvider;
  * And this line into the alias array in the same file
  * <code>'LPages' => 'JeroenG\LaravelPages\Facades\LaravelPages',</code>
  *
- * @package LaravelPages
  * @author 	JeroenG
- *
  **/
-class LaravelPagesServiceProvider extends ServiceProvider {
+class LaravelPagesServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+    }
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-        $this->loadMigrationsFrom( __DIR__.'/../migrations');
-	}
-
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->singleton('laravelpages', function ($app) {
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('laravelpages', function ($app) {
             return new LaravelPages;
-    	});
-	}
+        });
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('laravelpages');
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['laravelpages'];
+    }
 }
