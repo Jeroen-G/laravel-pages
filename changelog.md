@@ -2,8 +2,21 @@
 
 All notable changes to `JeroenG\LaravelPages` will be documented in this file
 
+## V2.1
+
+### Added
+- Package autodiscover for Laravel 5.5
+- TravisCI
+
+### Updated
+- Testbench for testing
+- PHPUnit updated from v4 to v6
+
+### Removed
+- Cocur/Slugify is replaced by Laravel's slugifier
+
 ## V2.0
-This version is being build on, and for, Laravel 5 (should work at least on 5.0 and 5.1). Laravel 4.x users should stick to version 1.x.
+This version is being build on, and for, Laravel 5. Laravel 4.x users should stick to version 1.x.
 
 ### Added
 - Changelog
