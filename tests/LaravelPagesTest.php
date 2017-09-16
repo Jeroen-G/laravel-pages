@@ -1,15 +1,10 @@
 <?php
 
+namespace JeroenG\LaravelPages\Tests;
+
+use Orchestra\Testbench\TestCase;
 use JeroenG\LaravelPages\LaravelPages;
 
-/**
- * This is for testing the package
- *
- * @package LaravelPages
- * @subpackage Tests
- * @author  JeroenG
- *
- **/
 class LaravelPagesTest extends TestCase
 {
 
@@ -20,7 +15,7 @@ class LaravelPagesTest extends TestCase
     protected $pages;
     
     /**
-     * Setup DB before each test.
+     * Setup before each test.
      *
      * @return void
      */
@@ -28,32 +23,36 @@ class LaravelPagesTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('database.default', 'sqlite');
-        $this->app['config']->set('database.connections.sqlite.database', ':memory:');
-
-        $this->migrate();
+        $this->artisan('migrate', ['--database' => 'testbench']);
 
         $this->pages = new LaravelPages();
     }
 
     /**
-     * run package database migrations
+     * Tell Testbench to use this package.
+     * @param $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return ['JeroenG\LaravelPages\LaravelPagesServiceProvider'];
+    }
+
+    /**
+     * Define environment setup.
      *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    public function migrate()
+    protected function getEnvironmentSetUp($app)
     {
-        $classFinder = $this->app->make('Illuminate\Filesystem\ClassFinder');
-        
-        $path = realpath(__DIR__ . "/../migrations");
-        $files = glob($path.'/*');
-
-        foreach ($files as $file) {
-            require_once $file;
-            $migrationClass = $classFinder->findClass($file);
-
-            (new $migrationClass)->up();
-        }
+        // Setup default database to use sqlite :memory:
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
     }
 
     /**
@@ -194,7 +193,7 @@ class LaravelPagesTest extends TestCase
     public function testGetForceDeletedPageId()
     {
         $this->dummy();
-        $this->setExpectedException('ErrorException');
+        $this->expectException('ErrorException');
         $this->pages->deletePage(1, true);
         $output = $this->pages->getPageId(1);
     }
@@ -218,6 +217,11 @@ class LaravelPagesTest extends TestCase
 
         $output = $this->pages->getPage('hello-world');
         $this->assertContains('New Dummy Content', $output->page_content);
+    }
+
+    public function testCreatingSlug()
+    {
+        $this->assertEquals('hello-world-this-is-a-slug', $this->pages->createSlug('Hello World, this is a slug!'));
     }
 
     public function dummy()

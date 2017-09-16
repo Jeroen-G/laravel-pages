@@ -30,9 +30,7 @@ class LaravelPagesServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->publishes([
-            __DIR__.'/../migrations' => $this->app->databasePath().'/migrations',
-        ]);
+        $this->loadMigrationsFrom( __DIR__.'/../migrations');
 	}
 
 	/**
