@@ -1,4 +1,6 @@
-<?php namespace JeroenG\LaravelPages\Facades;
+<?php
+
+namespace JeroenG\LaravelPages\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -9,14 +11,11 @@ use Illuminate\Support\Facades\Facade;
  * <code>'LPages'	  => 'JeroenG\LaravelPages\Facades\LaravelPages',</code>
  * 'LPages' is then the facade you can use in your code. If you want it to be something else, you can change this here.
  *
- * @package LaravelPages
- * @subpackage Facades
  * @author 	JeroenG
- * 
  **/
-class LaravelPages extends Facade {
-
-	/**
+class LaravelPages extends Facade
+{
+    /**
      * Get the registered name of the component.
      *
      * @return string

@@ -7,13 +7,12 @@ use JeroenG\LaravelPages\LaravelPages;
 
 class LaravelPagesTest extends TestCase
 {
-
     /**
-     * The LaravelPages instance
+     * The LaravelPages instance.
      * @var object
      */
     protected $pages;
-    
+
     /**
      * Setup before each test.
      *
@@ -62,8 +61,8 @@ class LaravelPagesTest extends TestCase
      */
     public function testAddPage()
     {
-        $page_title = "Hello Europe";
-        $page_content = "This is the content for another page";
+        $page_title = 'Hello Europe';
+        $page_content = 'This is the content for another page';
         $output = $this->pages->addPage($page_title, $page_content);
         $this->assertTrue($output);
     }
@@ -209,9 +208,9 @@ class LaravelPagesTest extends TestCase
         $page = $this->pages->getPageById(1);
 
         $id = 1;
-        $title = "Test";
-        $content = "New Dummy Content";
-        $slug = "hello-world";
+        $title = 'Test';
+        $content = 'New Dummy Content';
+        $slug = 'hello-world';
 
         $this->pages->updatePage($id, $title, $content, $slug);
 
