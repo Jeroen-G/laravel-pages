@@ -83,8 +83,7 @@ class LaravelPages {
 	 **/
 	public function createSlug($slugify_this)
 	{
-		$slugify = new \Cocur\Slugify\Slugify();
-		return $slugify->slugify($slugify_this);
+		return str_slug($slugify_this);
 	}
 
 	/**
